@@ -6,9 +6,11 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 16:10:06 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/21 16:23:02 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/21 17:16:55 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "pipex.h" 
 
 static char		**free_all(char **tab)
 {
@@ -108,4 +110,34 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	if (i == n)
 		i--;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	unsigned int i;
+
+	i = 0;
+	if (dest == NULL)
+		return (NULL);
+	while (i < n)
+	{
+		((unsigned char*)dest)[i] = ((unsigned char*)src)[i];
+		i++;
+	}
+	return (dest);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	unsigned int	i;
+	char			*ret;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	i = ft_strlen((char *)s1);
+	if (!(ret = malloc(sizeof(char) * (i + ft_strlen((char*)s2) + 1))))
+		return (0);
+	ft_memcpy(ret, s1, i);
+	ft_memcpy(&ret[i], s2, ft_strlen((char*)s2) + 1);
+	return (ret);
 }
