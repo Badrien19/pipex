@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 15:28:46 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/22 12:59:39 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/22 14:52:20 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@
 
 int find_path(char **cmd, char **env)
 {
-	int i;
-	char *tmp;
-	char **paths;
-	char *path;
+	int		i;
+	char	*tmp;
+	char	**paths;
+	char	*path;
 
 	i = 0;
-	while (ft_strnstr(env[i], "PATH=", 5) == 0)
+	while (ft_strnstr(env[i], "PATH=", 5) == 0 && env[i] != NULL)
 		i++;
-	paths = ft_split(env[i] + 5, ':');
+	if(env[i] != NULL)
+		paths = ft_split(env[i] + 5, ':');
 	i = 0;
 	while(paths[i])
 	{
