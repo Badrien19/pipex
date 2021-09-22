@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 17:15:21 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/22 12:33:23 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/22 12:37:52 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,4 @@ char	*ft_strjoin(char const *s1, char const *s2);
 
 /* ft_split.c */
 
-static char		**free_all(char **tab);
-static int		motcounter(const char *str, char charset);
-static char		*fill(const char *str, char charset, int *i);
 char			**ft_split(const char *str, char charset);
