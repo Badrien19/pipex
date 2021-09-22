@@ -6,11 +6,37 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 16:10:06 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/22 08:32:14 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/22 12:09:51 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
+
+char	*ft_strnstr(const char *haystack, const char *needle, int len)
+{
+	int i;
+	int x;
+	int taille;
+
+	i = 0;
+	x = 0;
+	taille = 0;
+	while (needle[taille] != '\0')
+		taille++;
+	if (taille == 0)
+		return ((char *)haystack);
+	while (haystack[i] != '\0' && i < len)
+	{
+		while (haystack[i + x] == needle[x] &&
+			i + x < len && haystack[i + x] != '\0')
+			x++;
+		if (x == taille)
+			return ((char *)&haystack[i]);
+		x = 0;
+		i++;
+	}
+	return (0);
+}
 
 size_t	ft_strlen(const char *chaine)
 {

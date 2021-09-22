@@ -6,119 +6,112 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 15:28:46 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/22 09:15:16 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/22 12:13:04 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
 
-// TO DO
-// MakeFile
-// .H
-// systeme erreur
-// LEAK
+void error(int i)
+{
+	if (i == 1)
+		printf("Error: Can not opening pipe\n");
+	if (i == 2)
+		printf("Error: Can not create fork\n");
+	if (i == 3)
+		printf("Error: file error\n");
+	exit(i);
+	
+}
 
-int find_path(char **arg, char **env)
+int find_path(char **cmd, char **env)
 {
 	int i;
 	char *tmp;
 	char **paths;
-
-	printf("OK\n");
+	char *path;
+	
+//printf("cmd = (%s)", cmd[0]);
+//printf(" et (%s)\n", cmd[1]);
 	i = 0;
-	while(env[i])
-	{
-		if(ft_strncmp(env[i], "PATH=", 5) == 0)
-			paths[0] = &env[i][5];		
+	while (ft_strnstr(env[i], "PATH=", 5) == 0)
 		i++;
-	}
-	printf("OK\n");
-	// parcourir env a la recherche de PATH=
-	paths = ft_split(paths[0], ':');
-	// separer les differenet PATH par les :
+	paths = ft_split(env[i] + 5, ':');
 	i = 0;
+//printf("PATHs 1  = %s\n", paths[0]);
 	while(paths[i])
 	{
-		if(arg[0][0] != '/')
+		//printf("PATHs %d  = %s\n",i , paths[i]);
+		if(cmd[0][0] != '/')
 		{
 			tmp = ft_strjoin(paths[i], "/");
-			tmp = ft_strjoin(tmp, arg[0]);
-			// ajouer / et le nom de la commande arg[0]
+			path = ft_strjoin(tmp, cmd[0]);
+			//printf("%s\n", cmd[0]);
+			//printf("%s\n", paths[i]);
+			free(tmp);
 		}
-		if(access(tmp, X_OK) == 0) // access sur chacune des possibiliter
-			execve(tmp, arg, env); //lancer avec execve  ( execve(tmp, cmd, env); )
+		if(access(path, X_OK) == 0) 
+			execve(path, cmd, env);
 		i++;
-		free(tmp);
 	}
 	return (-1);
 }
 
-int parent_job(int fd,int pip, char **argv, char **env)
+void parent_fork(char **argv, char **env, int *fd)
 {
-	char **arg;
-	
-	arg = ft_split(argv[3], ' ');
-	if (arg[0] == NULL)
-		return (-1);
-	dup2(pip, STDIN_FILENO); 	 //remplacer/copie le 1 par le 2
-	close(pip);
-	dup2(fd, STDOUT_FILENO);
-	printf("OK\n"); // Si je le retire, segfault
-	find_path(arg, env); // execve a besoin du path, les argument, env
-	return (0);
-}
+	int file_out;
+	char	**cmd;
 
-int child_job(int fd, int pip,char **argv, char **env)
-{
-	char **arg;
-	
-	arg = ft_split(argv[2], ' ');
-	if (arg[0] == NULL)
-		return (-1);
-	dup2(pip, STDOUT_FILENO); 	 //remplacer/copie le 1 par le 2
-	close(pip);
-	dup2(fd, STDIN_FILENO);
+	file_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (file_out == -1)
+		error(3);
 	//printf("OK\n");
-	find_path(arg, env); // execve a besoin du path, les argument, env
-	return (0);
+	close(fd[1]); // ?
+	dup2(fd[0], STDIN_FILENO);
+	dup2(file_out, STDOUT_FILENO);
+
+	cmd = ft_split(argv[3], ' ');
+	find_path(cmd, env);
 }
 
-void pipex(int fd1, int fd2, char **argv, char **env)
+void child_fork(char **argv, char **env, int *fd)
 {
-	int		pip[2];
-	pid_t	id;
+	int file_in;
+	char	**cmd;
 
-	pipe(pip); // to check tab[0] envoie tab [1] prendre
-	id = fork(); // > 0 parent et 0 le child
-	
-	if(id == 0) // dans le child
-	{
-		close(pip[0]);
-		child_job(fd1, pip[1], argv, env);
-	}
-	else
-	{
-		waitpid(id, NULL, 0);
-		close(pip[1]);
-		parent_job(fd2, pip[0], argv, env);
-	}
-	
+	file_in = open(argv[1], O_RDONLY, 0777);
+	if (file_in == -1)
+		error(3);
+	//printf("OK\n");
+	close(fd[0]); // ?
+	dup2(fd[1], STDOUT_FILENO);
+	dup2(file_in, STDIN_FILENO);
+
+	cmd = ft_split(argv[2], ' ');
+	find_path(cmd, env);
 }
 
 int	main(int argc, char **argv, char **env)
+
 {
-	int		fd1;
-	int		fd2;
+	int		fd[2];
+	pid_t	pid;
 
 	if (argc != 5)
+		printf("Bad arguments\n");
+	else
 	{
-		printf("Error \n");
-		exit(-1);
+		if (pipe(fd) == -1)
+			error(1);
+		pid = fork();
+		if (pid == -1)
+			error(2);
+		if (pid == 0) // child
+			child_fork(argv, env, fd);
+		waitpid(pid, NULL, 0);
+		parent_fork(argv, env, fd);
+		close(fd[0]); // ?
+		close(fd[1]); // ?
 	}
-	fd1 = open(argv[1], O_RDONLY);
-	fd2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (fd1 < 0 || fd2 < 0)
-		return (-1);
-	pipex(fd1, fd2, argv, env);
 	return (1);
 }
