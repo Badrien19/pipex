@@ -6,11 +6,21 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 16:10:06 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/21 17:16:55 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/22 08:32:14 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
+
+size_t	ft_strlen(const char *chaine)
+{
+	size_t i;
+
+	i = 0;
+	while (chaine[i] != '\0')
+		i++;
+	return (i);
+}
 
 static char		**free_all(char **tab)
 {
