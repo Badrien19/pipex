@@ -6,14 +6,14 @@
 #    By: badrien <badrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 17:00:43 by user42            #+#    #+#              #
-#    Updated: 2021/09/22 12:20:56 by badrien          ###   ########.fr        #
+#    Updated: 2021/09/22 13:00:57 by badrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 SRC = 	main.c utils.c ft_split.c
-NAME = ft_pipex
+NAME = pipex
 LIB = ar rcs
 
 all : $(NAME)

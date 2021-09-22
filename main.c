@@ -6,9 +6,14 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 15:28:46 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/22 12:24:22 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/22 12:59:39 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+** No need to free, when execve is ending the entire heap is free,
+** including malloc
+*/
 
 #include "pipex.h" 
 
@@ -47,11 +52,12 @@ void parent_fork(char **argv, char **env, int *fd)
 	file_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (file_out == -1)
 		error(3);
-	close(fd[1]); // ?
+	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	dup2(file_out, STDOUT_FILENO);
 
 	cmd = ft_split(argv[3], ' ');
+	close(fd[0]);
 	find_path(cmd, env);
 }
 
@@ -63,11 +69,12 @@ void child_fork(char **argv, char **env, int *fd)
 	file_in = open(argv[1], O_RDONLY, 0777);
 	if (file_in == -1)
 		error(3);
-	close(fd[0]); // ?
+	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(file_in, STDIN_FILENO);
 
 	cmd = ft_split(argv[2], ' ');
+	close(fd[1]);
 	find_path(cmd, env);
 }
 
@@ -89,8 +96,6 @@ int	main(int argc, char **argv, char **env)
 			child_fork(argv, env, fd);
 		waitpid(pid, NULL, 0);
 		parent_fork(argv, env, fd);
-		close(fd[0]); // ?
-		close(fd[1]); // ?
 	}
-	return (1);
+	return (0);
 }
