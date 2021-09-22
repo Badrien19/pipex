@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 17:15:21 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/22 12:10:04 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/22 12:28:48 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,24 @@
 
 #endif
 
-char	**ft_split(const char *str, char charset);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlen(const char *chaine);
+/* main.c */
+
+int find_path(char **cmd, char **env);
+void parent_fork(char **argv, char **env, int *fd);
+void child_fork(char **argv, char **env, int *fd);
+int	main(int argc, char **argv, char **env);
+
+/* utils.c */
+
+void	error(int i);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
+size_t	ft_strlen(const char *chaine);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+char	*ft_strjoin(char const *s1, char const *s2);
+
+/* ft_split.c */
+
+static char		**free_all(char **tab);
+static int		motcounter(const char *str, char charset);
+static char		*fill(const char *str, char charset, int *i);
+char			**ft_split(const char *str, char charset);
