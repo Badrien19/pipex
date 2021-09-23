@@ -6,13 +6,13 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 16:10:06 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/22 12:28:57 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/23 13:44:59 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
 
-void error(int i)
+void	error(int i)
 {
 	if (i == 1)
 		printf("Error: Can not opening pipe\n");
@@ -21,14 +21,13 @@ void error(int i)
 	if (i == 3)
 		printf("Error: file error\n");
 	exit(i);
-	
 }
 
 char	*ft_strnstr(const char *haystack, const char *needle, int len)
 {
-	int i;
-	int x;
-	int taille;
+	int	i;
+	int	x;
+	int	taille;
 
 	i = 0;
 	x = 0;
@@ -39,8 +38,8 @@ char	*ft_strnstr(const char *haystack, const char *needle, int len)
 		return ((char *)haystack);
 	while (haystack[i] != '\0' && i < len)
 	{
-		while (haystack[i + x] == needle[x] &&
-			i + x < len && haystack[i + x] != '\0')
+		while (haystack[i + x] == needle[x] && i
+			+ x < len && haystack[i + x] != '\0')
 			x++;
 		if (x == taille)
 			return ((char *)&haystack[i]);
@@ -52,7 +51,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, int len)
 
 size_t	ft_strlen(const char *chaine)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (chaine[i] != '\0')
@@ -62,14 +61,14 @@ size_t	ft_strlen(const char *chaine)
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	i = 0;
 	if (dest == NULL)
 		return (NULL);
 	while (i < n)
 	{
-		((unsigned char*)dest)[i] = ((unsigned char*)src)[i];
+		((unsigned char *) dest)[i] = ((unsigned char *) src)[i];
 		i++;
 	}
 	return (dest);
@@ -83,9 +82,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
 	i = ft_strlen((char *)s1);
-	if (!(ret = malloc(sizeof(char) * (i + ft_strlen((char*)s2) + 1))))
+	ret = malloc(sizeof(char) * (i + ft_strlen((char *) s2) + 1));
+	if (ret == NULL)
 		return (0);
 	ft_memcpy(ret, s1, i);
-	ft_memcpy(&ret[i], s2, ft_strlen((char*)s2) + 1);
+	ft_memcpy(&ret[i], s2, ft_strlen((char *) s2) + 1);
 	return (ret);
 }

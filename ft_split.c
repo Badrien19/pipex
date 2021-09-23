@@ -6,15 +6,15 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 12:19:31 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/22 12:21:13 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/23 13:38:28 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
 
-static char		**free_all(char **tab)
+static char	**free_all(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i] != NULL)
@@ -23,11 +23,11 @@ static char		**free_all(char **tab)
 	return (0);
 }
 
-static int		motcounter(const char *str, char charset)
+static int	motcounter(const char *str, char charset)
 {
-	int i;
-	int mot;
-	int motcount;
+	int	i;
+	int	mot;
+	int	motcount;
 
 	motcount = 0;
 	mot = 1;
@@ -48,7 +48,7 @@ static int		motcounter(const char *str, char charset)
 	return (motcount);
 }
 
-static char		*fill(const char *str, char charset, int *i)
+static char	*fill(const char *str, char charset, int *i)
 {
 	char	*tmp;
 	int		y;
@@ -68,7 +68,7 @@ static char		*fill(const char *str, char charset, int *i)
 	return (tmp);
 }
 
-char			**ft_split(const char *str, char charset)
+char	**ft_split(const char *str, char charset)
 {
 	int		wordcount;
 	char	**tab;
