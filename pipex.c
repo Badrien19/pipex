@@ -6,17 +6,11 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:31:14 by badrien           #+#    #+#             */
-/*   Updated: 2021/10/05 12:19:28 by badrien          ###   ########.fr       */
+/*   Updated: 2021/10/05 12:28:42 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
-
-/*
-** TO DO
-** NORM
-** FREE split
-*/
 
 char	*find_path(char **cmd, char **env)
 {
