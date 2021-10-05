@@ -6,13 +6,13 @@
 #    By: badrien <badrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 17:00:43 by user42            #+#    #+#              #
-#    Updated: 2021/09/23 13:59:35 by badrien          ###   ########.fr        #
+#    Updated: 2021/09/23 16:49:19 by badrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-SRC = 	main.c utils.c ft_split.c
+SRC = 	pipex.c utils.c ft_split.c
 OBJS = $(SRC:.c=.o)
 NAME = pipex
 

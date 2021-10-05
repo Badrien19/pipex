@@ -6,13 +6,13 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:31:14 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/23 17:28:19 by badrien          ###   ########.fr       */
+/*   Updated: 2021/10/05 11:15:51 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
 
-char *find_path(char **cmd, char **env)
+char	*find_path(char **cmd, char **env)
 {
 	int		i;
 	char	*tmp;
@@ -41,77 +41,84 @@ char *find_path(char **cmd, char **env)
 	return (NULL);
 }
 
-int execute_cmd1(char **argv, char **env)
+int	execute_cmd1(char **argv, char **env, int fd[2])
 {
 	int		file_in;
-	char **cmd;
-	char *path;
+	char	**cmd;
+	char	*path;
 	pid_t	pid;
 
-	cmd = ft_split(argv[2]); // ETAPE 1
+	cmd = ft_split(argv[2], ' ');
 	if (cmd[0] == NULL)
-		//ERREUR
-	path = find_path(cmd, env); // ETAPE 2
+		return (5);
+	path = find_path(cmd, env);
 	if (path == NULL)
-		//ERREUR
-	fork(pid);
+		return (4);
+	pid = fork();
 	if (pid == -1)
-		//ERREUR
+		return (1);
 	if (pid == 0)
 	{
 		file_in = open(argv[1], O_RDONLY, 0777);
 		if (file_in == -1)
-			// ERROR
+			return (3);
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		dup2(file_in, STDIN_FILENO);
 		close(fd[1]);
 		execve(path, cmd, env);
 	}
+	free(path);
 	return (0);
 }
 
-int execute_cmd1(char **argv, char **env) // TO DO ERREUR
+int	execute_cmd2(char **argv, char **env, int fd[2])
 {
 	int		file_out;
-	char **cmd;
-	char *path;
+	char	**cmd;
+	char	*path;
 	pid_t	pid;
 
-	cmd = ft_split(argv[3]); // ETAPE 1
-	path = find_path(cmd, env); // ETAPE 2
-
-	fork(pid);
+	cmd = ft_split(argv[3], ' ');
+	if (cmd[0] == NULL)
+		return (5);
+	path = find_path(cmd, env);
+	if (path == NULL)
+		return (4);
+	pid = fork();
+	if (pid == -1)
+		return (1);
 	if (pid == 0)
 	{
 		file_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if (file_out == -1)
+			return (3);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		dup2(file_out, STDOUT_FILENO);
 		close(fd[1]);
 		execve(path, cmd, env);
 	}
+	free(path);
 	return (0);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	int		file_in;
-	int		file_out;
 	int		fd[2];
-	char *path;
-	char **cmd;
-	pid_t	pid;
+	int		error_id1;
+	int		error_id2;
 
 	if (argc != 5)
 		printf("Bad arguments\n");
 	else
 	{
-		execute_cmd_1(argv, env);
-		execute_cmd_2(argv, env);
-		
-		//TO DO clean UP
+		error_id1 = execute_cmd1(argv, env, fd);
+		error_id2 = execute_cmd2(argv, env, fd);
+		if (error_id1 != 0)
+			error(error_id1);
+		if (error_id2 != 0)
+			error(error_id2);
 	}
-	
-	
+	return (0);
 }

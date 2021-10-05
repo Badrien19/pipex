@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 17:15:21 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/23 13:46:00 by badrien          ###   ########.fr       */
+/*   Updated: 2021/10/05 10:46:13 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@
 
 /* main.c */
 
-int		find_path(char **cmd, char **env);
-void	parent_fork(char **argv, char **env, int *fd);
-void	child_fork(char **argv, char **env, int *fd);
 int		main(int argc, char **argv, char **env);
 
 /* utils.c */

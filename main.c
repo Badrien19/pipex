@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 15:28:46 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/23 13:40:21 by badrien          ###   ########.fr       */
+/*   Updated: 2021/09/23 16:25:46 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,26 @@
 ** including malloc
 */
 
+
+/*
+
+PLAN:
+-	check nb of input
+-	on fork
+-	open argv[1]
+-	on dup
+-	on extrait la commande
+- 	on trouve le PATH
+-	execve
+-	wait pip
+-	on fork
+- 	open argv[4]
+-	on dup
+-	on extrait la commande
+-	on trouve le PATH
+-	execve
+-	affiche les erreurs
+*/
 #include "pipex.h" 
 
 int	find_path(char **cmd, char **env)
@@ -40,13 +60,13 @@ int	find_path(char **cmd, char **env)
 			free(tmp);
 		}
 		if (access(path, X_OK) == 0)
-			execve(path, cmd, env);
+			execve(path, cmd, env); 
 		i++;
 	}
 	return (-1);
 }
 
-void	parent_fork(char **argv, char **env, int *fd)
+int	parent_fork(char **argv, char **env, int *fd)
 {
 	int		file_out;
 	char	**cmd;
@@ -59,10 +79,12 @@ void	parent_fork(char **argv, char **env, int *fd)
 	dup2(file_out, STDOUT_FILENO);
 	cmd = ft_split(argv[3], ' ');
 	close(fd[0]);
-	find_path(cmd, env);
+	if (find_path(cmd, env) == -1)
+		return (-1);
+	return (0);
 }
 
-void	child_fork(char **argv, char **env, int *fd)
+int	child_fork(char **argv, char **env, int *fd)
 {
 	int		file_in;
 	char	**cmd;
@@ -75,14 +97,18 @@ void	child_fork(char **argv, char **env, int *fd)
 	dup2(file_in, STDIN_FILENO);
 	cmd = ft_split(argv[2], ' ');
 	close(fd[1]);
-	find_path(cmd, env);
+	if (find_path(cmd, env) == -1)
+		return (-1);
+	return (0);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	int		fd[2];
+	int		flag;
 	pid_t	pid;
 
+	flag = 0;
 	if (argc != 5)
 		printf("Bad arguments\n");
 	else
@@ -93,9 +119,26 @@ int	main(int argc, char **argv, char **env)
 		if (pid == -1)
 			error(2);
 		if (pid == 0)
-			child_fork(argv, env, fd);
+			if (child_fork(argv, env, fd) == -1)
+						{
+			close(fd[0]);
+			close(fd[1]);
+			error(4);
+		}
 		waitpid(pid, NULL, 0);
-		parent_fork(argv, env, fd);
+		if (parent_fork(argv, env, fd) == -1)
+			flag += 1;
 	}
+	if(flag > 0)
+		{
+			close(fd[0]);
+			close(fd[1]);
+			error(4);
+		}
 	return (0);
 }
+
+// cat < infile | echo ok > outfile
+// ./pipex infile cat  "echo ok" outfile
+
+//fork dans l'enfant les dup(s) puis execve (attention different dup)

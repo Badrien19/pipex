@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 16:10:06 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/23 13:44:59 by badrien          ###   ########.fr       */
+/*   Updated: 2021/10/05 11:10:05 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ void	error(int i)
 		printf("Error: Can not create fork\n");
 	if (i == 3)
 		printf("Error: file error\n");
+	if (i == 4)
+		printf("Error: command not found\n");
+	if (i == 5)
+		printf("Error: Malloc fail\n");
 	exit(i);
 }
 
