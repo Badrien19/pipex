@@ -6,26 +6,11 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 16:10:06 by badrien           #+#    #+#             */
-/*   Updated: 2021/10/05 11:10:05 by badrien          ###   ########.fr       */
+/*   Updated: 2021/10/05 12:02:58 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
-
-void	error(int i)
-{
-	if (i == 1)
-		printf("Error: Can not opening pipe\n");
-	if (i == 2)
-		printf("Error: Can not create fork\n");
-	if (i == 3)
-		printf("Error: file error\n");
-	if (i == 4)
-		printf("Error: command not found\n");
-	if (i == 5)
-		printf("Error: Malloc fail\n");
-	exit(i);
-}
 
 char	*ft_strnstr(const char *haystack, const char *needle, int len)
 {
