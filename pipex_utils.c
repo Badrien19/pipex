@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 12:02:38 by badrien           #+#    #+#             */
-/*   Updated: 2021/10/05 12:16:00 by badrien          ###   ########.fr       */
+/*   Updated: 2021/10/05 12:19:35 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** i = 2 -> cmd 2
 */
 
-char*	free_double_array_ret(char **tab, char *ret)
+char	*free_double_array_ret(char **tab, char *ret)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ char*	free_double_array_ret(char **tab, char *ret)
 	while (tab[i] != NULL)
 		free(tab[i++]);
 	free(tab);
-	return(ret);
+	return (ret);
 }
 
 void	close_dup(int fd[2], int file, int i)

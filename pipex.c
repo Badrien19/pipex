@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:31:14 by badrien           #+#    #+#             */
-/*   Updated: 2021/10/05 12:16:01 by badrien          ###   ########.fr       */
+/*   Updated: 2021/10/05 12:19:28 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*find_path(char **cmd, char **env)
 	if (env[i] != NULL)
 		paths = ft_split(env[i] + 5, ':');
 	i = 0;
-	while (paths[i])
+	while (paths[i++])
 	{
 		if (cmd[0][0] != '/')
 		{
@@ -43,7 +43,6 @@ char	*find_path(char **cmd, char **env)
 		if (access(path, X_OK) == 0)
 			return (free_double_array_ret(paths, path));
 		free(path);
-		i++;
 	}
 	return (NULL);
 }
