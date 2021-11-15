@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:31:14 by badrien           #+#    #+#             */
-/*   Updated: 2021/10/05 12:28:42 by badrien          ###   ########.fr       */
+/*   Updated: 2021/11/15 16:18:55 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	main(int argc, char **argv, char **env)
 	int		error_id1;
 	int		error_id2;
 
+	pipe(fd);
 	if (argc != 5)
 		printf("Error: Bad arguments\n");
 	else
