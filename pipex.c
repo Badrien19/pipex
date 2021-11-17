@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:31:14 by badrien           #+#    #+#             */
-/*   Updated: 2021/11/15 16:18:55 by badrien          ###   ########.fr       */
+/*   Updated: 2021/11/17 12:25:30 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*find_path(char **cmd, char **env)
 			return (free_double_array_ret(paths, path));
 		free(path);
 	}
+	free_all(paths);
 	return (NULL);
 }
 
@@ -66,6 +67,7 @@ int	execute_cmd1(char **argv, char **env, int fd[2])
 		execve(path, cmd, env);
 	}
 	free(path);
+	free_all(cmd);
 	return (0);
 }
 
@@ -93,6 +95,8 @@ int	execute_cmd2(char **argv, char **env, int fd[2])
 		close_dup(fd, file_out, 2);
 		execve(path, cmd, env);
 	}
+	free(path);
+	free_all(cmd);
 	return (0);
 }
 
@@ -103,7 +107,7 @@ int	main(int argc, char **argv, char **env)
 	int		error_id2;
 
 	pipe(fd);
-	if (argc != 5)
+	if (argc != 5 || ft_strlen(argv[2]) == 0 || ft_strlen(argv[3]) == 0)
 		printf("Error: Bad arguments\n");
 	else
 	{

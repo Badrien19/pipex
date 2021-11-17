@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 17:15:21 by badrien           #+#    #+#             */
-/*   Updated: 2021/10/05 12:12:41 by badrien          ###   ########.fr       */
+/*   Updated: 2021/11/17 12:25:50 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 
 /* ft_split.c */
 
+char	**free_all(char **tab);
 char	**ft_split(const char *str, char charset);
 
 #endif

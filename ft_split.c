@@ -6,13 +6,13 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 12:19:31 by badrien           #+#    #+#             */
-/*   Updated: 2021/09/23 13:38:28 by badrien          ###   ########.fr       */
+/*   Updated: 2021/11/17 12:24:14 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
 
-static char	**free_all(char **tab)
+char	**free_all(char **tab)
 {
 	int	i;
 
