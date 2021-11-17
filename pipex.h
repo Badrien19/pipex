@@ -6,7 +6,7 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 17:15:21 by badrien           #+#    #+#             */
-/*   Updated: 2021/11/17 12:25:50 by badrien          ###   ########.fr       */
+/*   Updated: 2021/11/17 12:38:58 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		main(int argc, char **argv, char **env);
 
 /* pipex_utils.c */
 
-char*	free_double_array_ret(char **tab, char *ret);
+char	*free_double_array_ret(char **tab, char *ret);
 void	close_dup(int fd[2], int file, int i);
 void	error(int i);
 

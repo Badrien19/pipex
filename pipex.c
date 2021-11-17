@@ -6,21 +6,19 @@
 /*   By: badrien <badrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:31:14 by badrien           #+#    #+#             */
-/*   Updated: 2021/11/17 12:25:30 by badrien          ###   ########.fr       */
+/*   Updated: 2021/11/17 12:41:03 by badrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h" 
 
-char	*find_path(char **cmd, char **env)
+char	*find_path(char **cmd, char **env, int i)
 {
-	int		i;
 	char	*tmp;
 	char	**paths;
 	char	*path;
 
 	paths = NULL;
-	i = 0;
 	while (ft_strnstr(env[i], "PATH=", 5) == 0 && env[i] != NULL)
 		i++;
 	if (env[i] != NULL)
@@ -55,7 +53,7 @@ int	execute_cmd1(char **argv, char **env, int fd[2])
 	cmd = ft_split(argv[2], ' ');
 	if (cmd[0] == NULL)
 		return (5);
-	path = find_path(cmd, env);
+	path = find_path(cmd, env, 0);
 	if (path == NULL)
 		return (4);
 	pid = fork();
@@ -84,7 +82,7 @@ int	execute_cmd2(char **argv, char **env, int fd[2])
 	cmd = ft_split(argv[3], ' ');
 	if (cmd[0] == NULL)
 		return (5);
-	path = find_path(cmd, env);
+	path = find_path(cmd, env, 0);
 	if (path == NULL)
 		return (4);
 	pid = fork();
